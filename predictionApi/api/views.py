@@ -58,7 +58,7 @@ def index(request):
     }
     dataset.replace(encode, inplace=True)
 
-    result=getPrediction(city,team1,team2,toss_decision,toss_winner,venue,teamDict,cityDict,venueDict,tossDecisionDict,dataset)
+    result=getPrediction(city,team1,team2,toss_decision,toss_winner,venue,teamDict,cityDict,tossDecisionDict,dataset)
 
     return JsonResponse({'winner':result})
 
@@ -126,7 +126,7 @@ def buildModel(dataset,team1,team2) :
 
     return clf
 
-def getPrediction(city,team1,team2,toss_decision,toss_winner,venue,teamDict,cityDict,venueDict,tossDecisionDict,dataset) :
+def getPrediction(city,team1,team2,toss_decision,toss_winner,venue,teamDict,cityDict,tossDecisionDict,dataset) :
 
     predictionSet = pd.DataFrame({
         'city':cityDict[city],
@@ -134,7 +134,7 @@ def getPrediction(city,team1,team2,toss_decision,toss_winner,venue,teamDict,city
         'team 2':teamDict[team2],
         'toss_decision':[toss_decision],
         'toss_winner':teamDict[toss_winner],
-        'venue':venueDict[venue]
+        'venue':venue
     })
 
     predictionSet = pd.get_dummies(predictionSet)
