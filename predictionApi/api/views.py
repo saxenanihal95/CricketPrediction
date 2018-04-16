@@ -16,6 +16,14 @@ def index(request):
 
     team2 = request.GET['team2']
 
+    team_1_batting_average = request.GET['team_1_batting_average']
+
+    team_1_bowling_average = request.GET['team_1_bowling_average']
+
+    team_2_batting_average = request.GET['team_2_batting_average']
+
+    team_2_bowling_average = request.GET['team_2_bowling_average']
+
     toss_decision = request.GET['toss_decision']
     
     toss_winner = request.GET['toss_winner']
@@ -58,7 +66,7 @@ def index(request):
     }
     dataset.replace(encode, inplace=True)
 
-    result=getPrediction(city,team1,team2,toss_decision,toss_winner,venue,teamDict,cityDict,tossDecisionDict,dataset)
+    result=getPrediction(city,team1,team2,team_1_batting_average,team_1_bowling_average,team_2_batting_average,team_2_bowling_average,toss_decision,toss_winner,venue,cityDict,teamDict,dataset)
 
     return JsonResponse({'winner':result})
 
@@ -126,12 +134,16 @@ def buildModel(dataset,team1,team2) :
 
     return clf
 
-def getPrediction(city,team1,team2,toss_decision,toss_winner,venue,teamDict,cityDict,tossDecisionDict,dataset) :
+def getPrediction(city,team1,team2,team1_batting_avg,team1_bowling_avg,team2_batting_avg,team2_bowling_avg,toss_decision,toss_winner,venue,cityDict,teamDict,dataset) :
 
     predictionSet = pd.DataFrame({
         'city':cityDict[city],
         'team 1':teamDict[team1],
         'team 2':teamDict[team2],
+        'team_1_batting_average':team1_batting_avg,
+        'team_1_bowling_average':team1_bowling_avg,
+        'team_2_batting_average':team2_batting_avg,
+        'team_2_bowling_average':team2_bowling_avg,
         'toss_decision':[toss_decision],
         'toss_winner':teamDict[toss_winner],
         'venue':venue
